@@ -732,7 +732,7 @@
 
     .wrapper {
       margin: 0 auto;
-      width: 100%;
+      width: 90%;
     }
 
     a.link {
@@ -762,6 +762,7 @@
           <th>Detailed Status</th>
           <th>Licenses</th>
           <th>Authors</th>
+          <th>Project</th>
           <th>Links</th>
         </tr>
       </thead>
@@ -816,8 +817,9 @@
                 <% end %>
               </div>
             </td>
-            <td><% unless gem_info.licenses.to_s.empty? || gem_info.licenses.empty? %><%= gem_info.licenses %><% end %></td>
-            <td><% unless gem_info.authors.nil? || gem_info.authors.empty? %><%= gem_info.authors %><% end %></td>
+            <td><%= gem_info.licenses %></td>
+            <td><%= gem_info.authors %></td>
+            <td><%= gem_info.project %></td>
             <td>
               <% unless gem_info.homepage_uri.to_s.empty? %>
                 <a href="<%= gem_info.homepage_uri %>" target="_blank" class="link homepage_uri" title="Homepage"></a>

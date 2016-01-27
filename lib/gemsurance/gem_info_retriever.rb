@@ -6,9 +6,9 @@ module Gemsurance
       STATUS_VULNERABLE = 'vulnerable'
 
       attr_reader :name, :current_version, :newest_version, :in_gem_file, :vulnerabilities,
-                  :homepage_uri, :source_code_uri, :documentation_uri, :licenses, :authors
+                  :homepage_uri, :source_code_uri, :documentation_uri, :licenses, :authors, :project
 
-      def initialize(name, current_version, newest_version, in_gem_file, homepage_uri, source_code_uri, documentation_uri, licenses, authors, status = STATUS_CURRENT)
+      def initialize(name, current_version, newest_version, in_gem_file, homepage_uri, source_code_uri, documentation_uri, licenses, authors, project, status = STATUS_CURRENT)
         @name = name
         @current_version = current_version
         @newest_version = newest_version
@@ -17,6 +17,7 @@ module Gemsurance
         @documentation_uri = documentation_uri
         @licenses = licenses
         @authors = authors
+        @project = project
         @source_code_uri = source_code_uri
         @status = status
         @vulnerabilities = []
@@ -77,15 +78,16 @@ module Gemsurance
         source_code_uri   = info['source_code_uri']
         licenses = info['licenses'].join(', ') rescue false || ""
         authors = info['authors']
+        project   = info['source_code_uri'].split('/')[-2] rescue nil
 
         # TODO: handle git versions
         # spec_version    = "#{active_spec.version}#{active_spec.git_version}"
         # current_version = "#{current_spec.version}#{current_spec.git_version}"
         in_gem_file = @dependencies.any?{|d| d.name == active_spec.name}
         if gem_outdated || git_outdated
-          gem_infos << GemInfo.new(active_spec.name, current_spec.version, active_spec.version, in_gem_file, homepage_uri, documentation_uri, source_code_uri, licenses, authors, GemInfo::STATUS_OUTDATED)
+          gem_infos << GemInfo.new(active_spec.name, current_spec.version, active_spec.version, in_gem_file, homepage_uri, documentation_uri, source_code_uri, licenses, authors, project, GemInfo::STATUS_OUTDATED)
         else
-          gem_infos << GemInfo.new(active_spec.name, current_spec.version, current_spec.version, in_gem_file, homepage_uri, documentation_uri, licenses, authors, source_code_uri)
+          gem_infos << GemInfo.new(active_spec.name, current_spec.version, current_spec.version, in_gem_file, homepage_uri, documentation_uri, source_code_uri, licenses, authors, project)
         end
       end
       gem_infos
