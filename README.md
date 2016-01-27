@@ -44,4 +44,4 @@ Contributions are always welcome. Please fork the repo and create a pull request
 Thanks to Bundler and the Ruby Advisory Database, upon which Gemsurance is based.
 
 ## License
-MIT License. HI
+MIT License.
